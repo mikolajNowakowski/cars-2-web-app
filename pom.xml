@@ -16,7 +16,7 @@
         <module>api</module>
     </modules>
 
-    <name>cars_2</name>
+    <name>cars-2-web-app</name>
     <properties>
         <revision>1.0-SNAPSHOT</revision>
         <java.version>20</java.version>
