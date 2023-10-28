@@ -165,7 +165,7 @@ public class CarRouter {
                     );
                 });
 
-                // GET http://localhost:8080/user/cars/sorted/body/:bodyType/price/:min/:max
+                // GET http://localhost:8080/user/cars/body/:bodyType/price/:min/:max
                 // Route to get cars with specified body type and price range
                 get(
                         "/body/:bodyType/price/:min/:max",
@@ -178,6 +178,8 @@ public class CarRouter {
                         },
                         responseTransformer
                 );
+
+                //TODO response serialization/deserialization
 
                 // GET http://localhost:8080/user/cars/mileages
                 // Route to get cars with mileage
