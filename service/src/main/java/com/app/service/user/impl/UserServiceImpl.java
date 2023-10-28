@@ -24,9 +24,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final Environment environment;
-
-    @Value("${validator.emailRegex}")
-    private String emailRegex;
     private static final Logger logger = LogManager.getLogger("DebugLogger");
 
     @Override
@@ -93,6 +90,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean validateCreateUserDto(CreateUserDto createUserDto){
+
+        String emailRegex = environment.getRequiredProperty("validator.emailRegex");
 
         if(createUserDto.username() == null || createUserDto.password() == null || createUserDto.passwordConfirmation() == null || createUserDto.email() == null || createUserDto.role() == null){
             logger.error("At least one field in createUserDto is null.");

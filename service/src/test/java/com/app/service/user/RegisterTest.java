@@ -38,7 +38,6 @@ public class RegisterTest {
     @Mock
     Environment environment;
 
-    //@Autowired
     @InjectMocks
     UserServiceImpl userService;
 
@@ -65,6 +64,10 @@ public class RegisterTest {
     @Test
     @DisplayName("When register method input data is incorrect due to wrong mail form.")
     void test3() {
+
+        when(environment.getRequiredProperty("validator.emailRegex"))
+                .thenReturn("^[a-zA-Z0-9._%+-]+@(gmail|o2|onet)\\.(pl|com)$");
+
         Assertions.assertThatThrownBy(() -> userService.register(new CreateUserDto("AAA", "AAA", "AAA", "123123123XYZ", Role.USER)))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Wrong inputted data. Impossible to create new user.");
@@ -73,6 +76,10 @@ public class RegisterTest {
     @Test
     @DisplayName("When register method is called with inputted name already exist.")
     void test4() {
+
+        when(environment.getRequiredProperty("validator.emailRegex"))
+                .thenReturn("^[a-zA-Z0-9._%+-]+@(gmail|o2|onet)\\.(pl|com)$");
+
         when(userRepository.findByUserName("AAA"))
                 .thenReturn(Optional.of(User.builder().build()));
 
@@ -85,6 +92,10 @@ public class RegisterTest {
     @Test
     @DisplayName("When register method is called and user with inputted name already exist.")
     void test5() {
+
+        when(environment.getRequiredProperty("validator.emailRegex"))
+                .thenReturn("^[a-zA-Z0-9._%+-]+@(gmail|o2|onet)\\.(pl|com)$");
+
         when(userRepository.findByEmail("123abcd@gmail.com"))
                 .thenReturn(Optional.of(User.builder().build()));
 
@@ -96,6 +107,10 @@ public class RegisterTest {
     @Test
     @DisplayName("When register method was called with correct arguments")
     void test6() {
+
+        when(environment.getRequiredProperty("validator.emailRegex"))
+                .thenReturn("^[a-zA-Z0-9._%+-]+@(gmail|o2|onet)\\.(pl|com)$");
+
         when(environment.getRequiredProperty("userActivation.activationTimeMs",Long.class))
                 .thenReturn(120000L);
 
