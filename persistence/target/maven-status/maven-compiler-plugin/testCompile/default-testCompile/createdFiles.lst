@@ -1,0 +1,9 @@
+com\app\data\loader\txt\TxtLoadTest.class
+com\app\data\loader\json\JsonLoadTest.class
+com\app\data\validator\ValidateTest.class
+com\app\data\converter\ConvertTest.class
+com\app\data\loader\db\DbLoadTest.class
+com\app\data\process\ProcessTest.class
+com\app\data\CarsModels.class
+com\app\config\AppTestBeansConfig.class
+com\app\data\CarsDataModels.class
