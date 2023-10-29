@@ -30,9 +30,11 @@ public class AppConfig {
         return Jdbi.create(URL, USERNAME, PASSWORD);
     }
 
+
     @Bean
     public Gson gson() {
         return new GsonBuilder()
+                .enableComplexMapKeySerialization()
                 .setPrettyPrinting()
                 .create();
     }
