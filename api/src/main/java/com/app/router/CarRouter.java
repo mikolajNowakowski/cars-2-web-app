@@ -179,7 +179,6 @@ public class CarRouter {
                         responseTransformer
                 );
 
-                //TODO response serialization/deserialization
 
                 // GET http://localhost:8080/user/cars/mileages
                 // Route to get cars with mileage
