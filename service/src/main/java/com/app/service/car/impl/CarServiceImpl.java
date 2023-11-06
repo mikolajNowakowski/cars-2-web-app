@@ -27,17 +27,18 @@ import static com.app.model.car.CarConverter.*;
 public final class CarServiceImpl implements CarService {
     private final ArrayList<Car> cars;
 
-    //TODO komentarze do metod, usunąc syf i nieuzywane importy
+    private final CarDataDbRepositoryImpl carDataDbRepositoryImpl;
 
     public CarServiceImpl(CarProvider carProvider, CarDataDbRepositoryImpl carDataDbRepositoryImpl) {
         this.carDataDbRepositoryImpl = carDataDbRepositoryImpl;
         cars = new ArrayList<>(carProvider.provide());
     }
 
-    private final CarDataDbRepositoryImpl carDataDbRepositoryImpl;
-
-
-
+    /***
+     *
+     * @param createCarDto car's data
+     * @return ID of added car
+     */
     @Override
     public Long save(CreateCarDto createCarDto) {
 
@@ -54,6 +55,11 @@ public final class CarServiceImpl implements CarService {
         return toId.apply(addedCar);
     }
 
+    /***
+     *
+     * @param comparator Car comparator.
+     * @return Collection of sorted cars
+     */
     @Override
     public List<Car> sortBy(Comparator<Car> comparator) {
         if (comparator == null) {
@@ -65,6 +71,14 @@ public final class CarServiceImpl implements CarService {
                 .toList();
     }
 
+
+    /***
+     *
+     * @param bodyType The type of car body with which the cars will be returned.
+     * @param priceMin Min price of teh cheapest returned car.
+     * @param priceMax Max price of teh most expensive returned car.
+     * @return Collection of cars with specified car body and price form inputted range.
+     */
     @Override
     public List<Car> carsWithSpecifiedBodyAndPriceBetween(CarBodyType bodyType, BigDecimal priceMin, BigDecimal priceMax) {
         if (bodyType == null || priceMin == null || priceMax == null) {
@@ -81,6 +95,12 @@ public final class CarServiceImpl implements CarService {
                 .toList();
     }
 
+    /***
+     *
+     * @param comparator Car comparator.
+     * @param engineType TThe type of engine with which the cars will be returned.
+     * @return Sorted cars with specified type of engine.
+     */
     @Override
     public List<Car> sortedCarsWithSpecifiedTypeOfEngine(Comparator<Car> comparator, EngineType engineType) {
         if (comparator == null || engineType == null) {
@@ -94,6 +114,10 @@ public final class CarServiceImpl implements CarService {
                 .toList();
     }
 
+    /***
+     *
+     * @return Statistics of car's prices.
+     */
     @Override
     public Statistics<BigDecimal, BigDecimal> priceStatistic() {
 
@@ -103,6 +127,10 @@ public final class CarServiceImpl implements CarService {
         return (cars.stream().map(toPrice).collect(new BigDecimalSummaryStatistics()));
     }
 
+    /***
+     *
+     * @return Statistics of car's mileage.
+     */
     @Override
     public Statistics<Long, Double> mileageStatistic() {
         if (cars.isEmpty()) {
@@ -112,6 +140,10 @@ public final class CarServiceImpl implements CarService {
         return Statistics.of(cars.stream().collect(summarizingLong(toMileage)));
     }
 
+    /***
+     *
+     * @return Statistics of car's power.
+     */
     @Override
     public Statistics<Double, Double> enginePowerStatistic() {
         if (cars.isEmpty()) {
@@ -121,6 +153,10 @@ public final class CarServiceImpl implements CarService {
         return Statistics.of(cars.stream().collect(summarizingDouble(Car::getPowerOfEngine)));
     }
 
+    /***
+     *
+     * @return Map where key is car and value its mileage.
+     */
     @Override
     public Map<Car, Long> carsWithMileage() {
         return cars
@@ -135,6 +171,10 @@ public final class CarServiceImpl implements CarService {
                         LinkedHashMap::new));
     }
 
+    /***
+     *
+     * @return Map with wheel type as key and list of cars with that wheel as value.
+     */
     @Override
     public Map<WheelType, List<Car>> wheelTypeWithCars() {
         return cars
@@ -146,6 +186,12 @@ public final class CarServiceImpl implements CarService {
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v1, LinkedHashMap::new));
     }
 
+    /***
+     *
+     * @param comparator Car comparator.
+     * @param components List of components.
+     * @return Collection of sorted cars with specified components.
+     */
     @Override
     public List<Car> carsWithSpecifiedComponents(Comparator<Car> comparator, List<String> components) {
 
